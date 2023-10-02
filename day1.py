@@ -1,4 +1,4 @@
 
-print("Hello Word!")
+print("Hello World!")
 
 print("Hello Tirzah")
