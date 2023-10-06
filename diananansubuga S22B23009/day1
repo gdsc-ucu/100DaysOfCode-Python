@@ -1,0 +1,15 @@
+# Imagine a right triangle:
+
+# Read a number from the standard input and assign it to a
+# Read another number from the standard input and assign it to b
+# Use Pythagoras theorem to determine the value of the long side c
+# Use string formatting to print out the length of the long side
+# If c is larger than PI (a constant), also print out: And this is longer than PI
+pi=3.14
+a=float(input("input the value of side a"))
+b=float(input("input the value of side b"))
+c=(a**2+b**2)**0.5
+print("the length of c is:",c)
+if c>pi:
+    print("and is longer than pi")
+
