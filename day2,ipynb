@@ -1,0 +1,3 @@
+import math
+a= (34-24)/10+3*math.log(5)*math.pow(2,11)
+print(a)
