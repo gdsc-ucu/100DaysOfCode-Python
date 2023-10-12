@@ -1,3 +1,4 @@
-print ("hello world")
-name = 'Obba Mark Calvin'
-print ("Hello "+ name)
+
+print("Hello World!")
+
+print("Hello Tirzah")
