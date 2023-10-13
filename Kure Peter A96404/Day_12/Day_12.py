@@ -1,7 +1,5 @@
 # Recursive function
 
-import math
-
 def factorial(x):
     if x == 1:
         return x
@@ -10,7 +8,7 @@ def factorial(x):
     
 num = int(input("Enter a number: "))
 
-# 
+
 if num < 0:
    print("Sorry, factorial does not exist for negative numbers")
 elif num == 0:
