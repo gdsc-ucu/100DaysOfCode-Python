@@ -3,3 +3,4 @@ with open(file_name,'r') as file:
     content = file.read()
     print("\nFile Content")
     print(content)
+    
