@@ -1,0 +1,4 @@
+monitor
+keyboard
+mouse
+speaker
