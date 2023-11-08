@@ -1,4 +1,4 @@
-# inheritance extended with Eagel subclass
+# inheritance extended with Eagle subclass
 # Base animal class
 class Animal:
     def __init__(self, name, species):
