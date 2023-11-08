@@ -41,7 +41,7 @@ class Eagle(Bird):
     def screech(self):
         return "Screech!"
         
-# Instances of Dog, Cat, and Bird
+# Instances of Dog, Cat, Bird and Eagle
 dog1 = Dog("Snoopy")
 cat1 = Cat("Oatmeal")
 bird1 = Bird("Robin", "Sparrow", "Red")
