@@ -9,3 +9,8 @@ def hello_world():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+from django.shortcuts import HttpResponse
+
+def home(request):
+    return HttpResponse('Hello, world')
