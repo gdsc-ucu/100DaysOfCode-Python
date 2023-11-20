@@ -13,7 +13,7 @@ def signup():
 
     if not username or not email:
         error_message = "Both username and email are required."
-        return render_template('sign_up.html', error_message=error_message)
+        return render_template('signup.html', error_message=error_message)
 
     return redirect(url_for('success'))
 
