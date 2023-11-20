@@ -3,29 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Sign Up</title>
 </head>
 <body>
-    <h1>Sign Up</h1>
-
-    <form method="post" action="{{ url_for('sign_up') }}">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-        <br>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-        <br>
-        <br>
-        <button type="submit">Sign Up</button>
-    </form>
-    <br>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+    <div class="container">
+        <h1>Sign Up</h1>
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
+        <form action="{{ url_for('signup') }}" method="post">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
 </body>
 </html>
