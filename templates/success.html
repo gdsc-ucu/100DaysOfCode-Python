@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Successfull signin</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Success</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Success!</h1>
-        <p>Your account has been created.</p>
-    </div>
+    <h2>Successfully Entry</h2>
+    <p><b>User information:</b></p>
+    <ul>
+        <li>Username: {{ collected_info.username }}</li>
+        <li>Age: {{ collected_info.age }}</li>
+        <li>Email: {{ collected_info.email }}</li>
+    </ul>
 </body>
 </html>
