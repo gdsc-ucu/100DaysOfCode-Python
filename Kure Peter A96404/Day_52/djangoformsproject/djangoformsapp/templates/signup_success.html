@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup Successful</title>
+</head>
+<body>
+    <h1>Signup Successful!</h1>
+    <p>Thank you for signing up, {{ username }}!</p>
+    <p>Your email is: {{ email }}</p>
+    <p>Your age is: {{ age }}</p>
+    <a href="{% url 'signup' %}">Signup again</a>
+</body>
+</html>
