@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         username = request.form['username']
