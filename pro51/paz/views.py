@@ -7,8 +7,9 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
+            age = form.cleaned_data['age']
             email = form.cleaned_data['email']
-            return HttpResponse(f' Successfully signed up as {username} with email {email}')
+            return HttpResponse(f' Successfully signed up as {username} of age {age} with email {email}')
     else:
         form = SignUpForm()
 
