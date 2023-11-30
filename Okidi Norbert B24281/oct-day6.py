@@ -1,0 +1,7 @@
+name = str(input("Enter your name:"))
+age = int(input("Enter your age:"))
+float = float(input("Enter a floating point number:"))
+print("\nUSER INFORMATION")
+print(f"Name:{name}")
+print(f"Age:{age}")
+print(f"Floating-point number:{float}")

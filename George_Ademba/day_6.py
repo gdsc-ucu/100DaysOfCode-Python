@@ -1,0 +1,6 @@
+name=str(input("Name: "))
+age=int(input("Age: "))
+weight=float(input("Weight(kg): "))
+print(f'Your name is {name}')
+print(f"You're {age} years old")
+print(f"You weigh {weight} kg")
