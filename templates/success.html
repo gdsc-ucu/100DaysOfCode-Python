@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Successfull signin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Successfully Entry</h2>
+    <p><b>User information:</b></p>
+    <ul>
+        <li>Username: {{ collected_info.username }}</li>
+        <li>Age: {{ collected_info.age }}</li>
+        <li>Email: {{ collected_info.email }}</li>
+    </ul>
+</body>
+</html>
