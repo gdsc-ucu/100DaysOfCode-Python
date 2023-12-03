@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+</head>
+<body>
+    {% if form.is_valid %}
+        <p>Signup successful!</p>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Sign Up">
+        </form>
+    {% endif %}
+</body>
+</html>

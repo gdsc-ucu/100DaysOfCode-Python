@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Form</title>
+  <script>
+    function validateForm() {
+      var username = document.forms['userForm']['username'].value;
+      var password = document.forms['userForm']['password'].value;
+
+      if (username === "" || password === "") {
+        alert('Username and password are required!');
+        return false;
+      }
+
+      if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return false;
+      }
+
+      if (!/\d/.test(password)) {
+        alert('Password must include at least one number.');
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <form name="userForm" onsubmit="return validateForm();" method="post">
+    <label for='username'>Username:</label>
+    <input type="text" id='username' name='username' required>
+    <br>
+    <label for='password'>Password:</label>
+    <input type="password" id='password' name='password' required>
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
