@@ -29,9 +29,9 @@ def insert_projects_data():
         conn = sqlite3.connect('project.db')
         cursor = conn.cursor()
         projects_data = [
-            ('Project 1', '2023-01-01'),
-            ('Project 2', '2023-02-20'),
-            ('Project 3', '2023-03-29'),
+            ('Project 1', '2022-01-01'),
+            ('Project 2', '2022-02-15'),
+            ('Project 3', '2022-03-20'),
         ]
 
         insert_data_query = '''
@@ -101,7 +101,6 @@ def delete_a_project_by_projects_id(project_id):
 
 if __name__ == "__main__":
     create_projects_table()
-    insert_projects_data()
 
     crop_start_date_from = '2022-01-02'
     fetch_projects_by_start_date(crop_start_date_from)
@@ -109,5 +108,5 @@ if __name__ == "__main__":
     update_start_date_by_projects_id(1, '2022-2-20')
     fetch_projects_by_start_date(crop_start_date_from)
 
-    delete_a_project_by_projects_id(18)
+    delete_a_project_by_projects_id(3)
     fetch_projects_by_start_date(crop_start_date_from)

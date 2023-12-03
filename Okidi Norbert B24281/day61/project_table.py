@@ -29,9 +29,9 @@ def insert_projects_data():
         conn = sqlite3.connect('project.db')
         cursor = conn.cursor()
         projects_data = [
-            ('Project 1', '2023-01-01'),
-            ('Project 2', '2023-02-20'),
-            ('Project 3', '2023-03-29'),
+            ('Project 1', '2022-01-01'),
+            ('Project 2', '2022-02-15'),
+            ('Project 3', '2022-03-20'),
         ]
 
         insert_data_query = '''
