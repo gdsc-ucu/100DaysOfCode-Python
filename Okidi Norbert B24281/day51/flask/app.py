@@ -3,7 +3,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 
-@app.route('/user_form', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 
 def user_form():
     if request.method == 'POST':
@@ -18,5 +18,5 @@ def user_form():
     return render_template('user_form.html')
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     app.run(debug=True)
