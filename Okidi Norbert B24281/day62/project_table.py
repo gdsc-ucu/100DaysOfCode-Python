@@ -66,10 +66,47 @@ def fetch_projects_by_start_date(start_date):
     finally:
         conn.close()
 
+def update_start_date_by_projects_id(project_id, new_start_date):
+    try:
+        conn = sqlite3.connect('project.db')
+        cursor = conn.cursor()
+        cursor.execute("UPDATE projects SET start_date = ? WHERE project_id = ?",(new_start_date, project_id))
+        conn.commit()
+        print(f"start date updated for project_id {project_id}.")
+    
+    except sqlite3.Error as e:
+        print(e)
+
+    finally:
+        conn.close()
+
+def delete_a_project_by_projects_id(project_id):
+    try:
+        conn = sqlite3.connect('project.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM projects WHERE project_id = ?",(project_id,))
+        conn.commit()
+        print(f"Project having project_id {project_id} deleted successfully.")
+    
+    except sqlite3.Error as e:
+        print(e)
+
+    finally:
+        conn.close()
+
+
+
+
+
 
 if __name__ == "__main__":
     create_projects_table()
-    insert_projects_data()
 
     crop_start_date_from = '2022-01-02'
+    fetch_projects_by_start_date(crop_start_date_from)
+
+    update_start_date_by_projects_id(1, '2022-2-20')
+    fetch_projects_by_start_date(crop_start_date_from)
+
+    delete_a_project_by_projects_id(3)
     fetch_projects_by_start_date(crop_start_date_from)
