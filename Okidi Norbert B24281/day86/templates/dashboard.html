@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Management Dashboard</title>
+</head>
+<body>
+    <h1>Bot Management Dashboard</h1>
+
+    <h2>Metrics</h2>
+    <p>Total Bots: {{ metrics.total_bots }}</p>
+    <p>Active Bots: {{ metrics.active_bots }}</p>
+    <p>Inactive Bots: {{ metrics.inactive_bots }}</p>
+    <p>Uptime Percentage: {{ metrics.uptime_percentage }}%</p>
+
+    <h2>Configuration</h2>
+    <p>Refresh Interval: {{ configuration.refresh_interval }} seconds</p>
+    <p>Max Threads: {{ configuration.max_threads }}</p>
+    <p>Log Level: {{ configuration.log_level }}</p>
+</body>
+</html>
