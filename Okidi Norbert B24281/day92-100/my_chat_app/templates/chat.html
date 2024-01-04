@@ -1,4 +1,5 @@
 <!-- templates/chat.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,24 +15,26 @@
             <p>Welcome, {{ username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
         </div>
         <div id="message-container">
-            <div>
-                <p>Username: Hello, this is a sample message.</p>
-            </div>
+        <div id="notification-container"></div>
         </div>
 
         <form id="message-form">
             <input type="text" id="message-input" placeholder="Type your message">
-            <button id="send-button" type="submit">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Send
-            </button>
+            <button id="send-button" type="submit">Send</button>
         </form>
+
     </div>
 
     <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
     <script src="{{ url_for('static', filename='chat.js') }}"></script>
+
+    <script>
+        document.getElementById('message-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('send-button').click();
+            }
+        });
+    </script>
 </body>
 </html>

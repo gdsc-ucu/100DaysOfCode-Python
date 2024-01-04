@@ -10,7 +10,7 @@
 <body>
     <div class="login-box">
         <h2>Login</h2>
-        <form action="/" method="post">
+        <form action="{{ url_for('login') }}" method="post">
             <div class="user-box">
                 <input type="text" name="username" id="username">
                 <label for="">Username</label>
@@ -24,18 +24,16 @@
             </div>
         </form>
     </div>
-    <p>Don't have an account? <a href="/register">Register here</a></p>
+    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class="flashed-messages">
                 {% for message in messages %}
-                    <li>{{ messages }}</li>
+                    <li>{{ message }}</li>
                 {% endfor %}
             </ul>
         {% endif %}
     {% endwith %}
-    
-
 </body>
 </html>
