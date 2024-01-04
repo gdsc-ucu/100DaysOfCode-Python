@@ -1,0 +1,122 @@
+Metadata-Version: 2.1
+Name: eventlet
+Version: 0.34.2
+Summary: Highly concurrent networking library
+Project-URL: Homepage, https://github.com/eventlet/eventlet
+Project-URL: History, https://github.com/eventlet/eventlet/blob/master/NEWS
+Project-URL: Tracker, https://github.com/eventlet/eventlet/issues
+Project-URL: Source, https://github.com/eventlet/eventlet
+Author-email: Sergey Shepelev <temotor@gmail.com>, Jakub Stasiak <jakub@stasiak.at>, Tim Burke <tim.burke@gmail.com>, Nat Goodspeed <nat@lindenlab.com>, Itamar Turner-Trauring <itamar@itamarst.org>, Hervé Beraud <hberaud@redhat.com>
+License: MIT
+License-File: AUTHORS
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Requires-Dist: dnspython>=1.15.0
+Requires-Dist: greenlet>=1.0
+Requires-Dist: monotonic>=1.4; python_version < '3.5'
+Requires-Dist: six>=1.10.0
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: build; extra == 'dev'
+Requires-Dist: commitizen; extra == 'dev'
+Requires-Dist: isort; extra == 'dev'
+Requires-Dist: pip-tools; extra == 'dev'
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: twine; extra == 'dev'
+Description-Content-Type: text/x-rst
+
+Eventlet is a concurrent networking library for Python that allows you to change how you run your code, not how you write it.
+
+It uses epoll or libevent for highly scalable non-blocking I/O.  Coroutines ensure that the developer uses a blocking style of programming that is similar to threading, but provide the benefits of non-blocking I/O.  The event dispatch is implicit, which means you can easily use Eventlet from the Python interpreter, or as a small part of a larger application.
+
+It's easy to get started using Eventlet, and easy to convert existing
+applications to use it.  Start off by looking at the `examples`_,
+`common design patterns`_, and the list of `basic API primitives`_.
+
+.. _examples: http://eventlet.net/doc/examples.html
+.. _common design patterns: http://eventlet.net/doc/design_patterns.html
+.. _basic API primitives: http://eventlet.net/doc/basic_usage.html
+
+
+Quick Example
+===============
+
+Here's something you can try right on the command line::
+
+    % python3
+    >>> import eventlet
+    >>> from eventlet.green.urllib.request import urlopen
+    >>> gt = eventlet.spawn(urlopen, 'http://eventlet.net')
+    >>> gt2 = eventlet.spawn(urlopen, 'http://secondlife.com')
+    >>> gt2.wait()
+    >>> gt.wait()
+
+
+Getting Eventlet
+==================
+
+The easiest way to get Eventlet is to use pip::
+
+  pip install -U eventlet
+
+To install latest development version once::
+
+  pip install -U https://github.com/eventlet/eventlet/archive/master.zip
+
+
+Building the Docs Locally
+=========================
+
+To build a complete set of HTML documentation, you must have Sphinx, which can be found at http://sphinx.pocoo.org/ (or installed with `pip install Sphinx`)::
+
+  cd doc
+  make html
+
+The built html files can be found in doc/_build/html afterward.
+
+
+Twisted
+=======
+
+Eventlet had Twisted hub in the past, but community interest to this integration has dropped over time,
+now it is not supported, so with apologies for any inconvenience we discontinue Twisted integration.
+
+If you have a project that uses Eventlet with Twisted, your options are:
+
+* use last working release eventlet==0.14
+* start a new project with only Twisted hub code, identify and fix problems. As of eventlet 0.13, `EVENTLET_HUB` environment variable can point to external modules.
+* fork Eventlet, revert Twisted removal, identify and fix problems. This work may be merged back into main project.
+
+Apologies for any inconvenience.
+
+Supported Python versions
+=========================
+
+Python 3.7-3.12 are currently supported.
+
+Flair
+=====
+
+.. image:: https://img.shields.io/pypi/v/eventlet
+    :target: https://pypi.org/project/eventlet/
+
+.. image:: https://img.shields.io/github/actions/workflow/status/eventlet/eventlet/test.yaml?branch=master
+    :target: https://github.com/eventlet/eventlet/actions?query=workflow%3Atest+branch%3Amaster
+
+.. image:: https://codecov.io/gh/eventlet/eventlet/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/eventlet/eventlet

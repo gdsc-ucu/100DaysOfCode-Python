@@ -1,0 +1,37 @@
+<!-- templates/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
+    <title>Boujee Chat</title>
+</head>
+<body>
+    <div class="chat-box">
+        <div class="header">
+            <h1>Boujee Chat</h1>
+            <p>Welcome, {{ username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
+        </div>
+        <div id="message-container">
+            <div>
+                <p>Username: Hello, this is a sample message.</p>
+            </div>
+        </div>
+
+        <form id="message-form">
+            <input type="text" id="message-input" placeholder="Type your message">
+            <button id="send-button" type="submit">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Send
+            </button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
+</body>
+</html>
