@@ -13,6 +13,7 @@
         <div class="header">
             <h1>Boujee Chat</h1>
             <p>Welcome, {{ username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
+
         </div>
         <div id="message-container">
         <div id="notification-container"></div>
@@ -23,6 +24,13 @@
             <button id="send-button" type="submit">Send</button>
         </form>
 
+    </div>
+    <div id="message-container">
+        {% for message in messages %}
+            <div>
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
     </div>
 
     <script src="{{ url_for('static', filename='socket.io.js') }}"></script>

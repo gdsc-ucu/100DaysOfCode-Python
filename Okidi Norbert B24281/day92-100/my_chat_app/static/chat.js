@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Check if the message is a private message
         if (messageText.startsWith('/private')) {
-            var [command, recipient, ...textArray] = messageText.split(' ');
+            var [, recipient, ...textArray] = messageText.split(' ');
             var privateText = textArray.join(' ');
 
             console.log('Emitting private_message:', { recipient, message: privateText });
