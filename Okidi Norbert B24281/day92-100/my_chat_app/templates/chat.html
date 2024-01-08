@@ -14,16 +14,24 @@
             <h1>Boujee Chat</h1>
             <p>Welcome, {{ username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
         </div>
+
         <div id="message-container">
-        <div id="notification-container"></div>
+            <div id="notification-container"></div>
         </div>
 
         <form id="message-form">
-            <input type="text" id="message-input" placeholder="Type your message">
+            <input type="text" autocomplete="off" id="message-input" placeholder="Type your message">
             <button id="send-button" type="submit">Send</button>
         </form>
-
+        
     </div>
+    <div class="dark-mode-toggle" id="dark-mode-toggle">
+        <label for="dark-mode-checkbox">Dark Mode</label>
+        <div class="dark-mode-checkbox-wrapper">
+            <input type="checkbox" id="dark-mode-checkbox" class="dark-mode-checkbox">
+        </div>
+    </div>
+
     <div id="message-container">
         {% for message in messages %}
             <div>
@@ -34,6 +42,12 @@
 
     <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
     <script src="{{ url_for('static', filename='chat.js') }}"></script>
+
+    <script>
+        document.getElementById('dark-mode-checkbox').addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+        });
+    </script>
 
     <script>
         document.getElementById('message-input').addEventListener('keypress', function(event) {
