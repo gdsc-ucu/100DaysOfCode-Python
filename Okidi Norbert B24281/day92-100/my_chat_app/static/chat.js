@@ -2,13 +2,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     // Function to add a message to the chat container
-    function addMessageToContainer(messageText) {
+    function addMessageToContainer(messageText, timestamp) {
         var messageContainer = document.getElementById('message-container');
         var isUserScrolled = messageContainer.scrollHeight - messageContainer.clientHeight > messageContainer.scrollTop;
 
         var messageElement = document.createElement('div');
-        var timestamp = new Date().toLocaleTimeString();
-        messageText = `[${timestamp}] ${messageText}`;
+
+        // Use the provided timestamp or current time if not available
+        var formattedTimestamp = timestamp || new Date().toLocaleTimeString();
+
+        messageText = `[${formattedTimestamp}] ${messageText}`;
         messageElement.innerHTML = `<p>${messageText}</p>`;
         messageContainer.appendChild(messageElement);
 
@@ -20,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Restore stored messages from local storage
     var storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
     storedMessages.forEach(function (message) {
-        addMessageToContainer(message);
+        var timestamp = message.timestamp || new Date().toLocaleTimeString();
+        addMessageToContainer(message.message, timestamp);
     });
 
     // Emit request to the server for any missed messages (acknowledgment not received)
@@ -29,30 +33,32 @@ document.addEventListener('DOMContentLoaded', function () {
     // Listen for missed messages from the server
     socket.on('missed_messages', function (missedMessages) {
         missedMessages.forEach(function (missedMessage) {
-            addMessageToContainer(missedMessage);
+            var timestamp = missedMessage.timestamp || new Date().toLocaleTimeString();
+            addMessageToContainer(missedMessage.message, timestamp);
         });
     });
 
     // Function to save the message to local storage
-    function saveMessageToLocalStorage(message) {
-        storedMessages.push(message);
+    function saveMessageToLocalStorage(message, timestamp) {
+        storedMessages.push({ message, timestamp });
         localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
     }
 
     // Listen for new messages from the server
     socket.on('message', function (data) {
-        addMessageToContainer(data.message);
+        var timestamp = data.timestamp || new Date().toLocaleTimeString();
+        addMessageToContainer(data.message, timestamp);
 
         // Save the new message to local storage
-        saveMessageToLocalStorage(data.message);
+        saveMessageToLocalStorage(data.message, timestamp);
 
         // Emit acknowledgment to the server that the message is received
         socket.emit('message_received', { messageId: data.messageId });
     });
 
     // Function to save the private message to local storage
-    function savePrivateMessageToLocalStorage(message) {
-        storedMessages.push(message);
+    function savePrivateMessageToLocalStorage(message, timestamp) {
+        storedMessages.push({ message, timestamp });
         localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
     }
 
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var isUserScrolled = messageContainer.scrollHeight - messageContainer.clientHeight > messageContainer.scrollTop;
 
         var messageElement = document.createElement('div');
-        var timestamp = new Date().toLocaleTimeString();
+        var timestamp = data.timestamp || new Date().toLocaleTimeString();
         var messageText = `[${timestamp}] [Private] ${data.sender} to ${data.recipient}: ${data.message}`;
 
         messageElement.innerHTML = `<p>${messageText}</p>`;
@@ -75,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Save the new private message to local storage
-        savePrivateMessageToLocalStorage(messageText);
+        savePrivateMessageToLocalStorage(messageText, timestamp);
 
         // Emit acknowledgment to the server that the private message is received
         socket.emit('private_message_received', { messageId: data.messageId });
@@ -87,7 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Listen for missed private messages from the server
     socket.on('missed_private_messages', function (missedPrivateMessages) {
         missedPrivateMessages.forEach(function (missedPrivateMessage) {
-            addMessageToContainer(missedPrivateMessage);
+            var timestamp = missedPrivateMessage.timestamp || new Date().toLocaleTimeString();
+            addMessageToContainer(missedPrivateMessage.message, timestamp);
         });
     });
 
