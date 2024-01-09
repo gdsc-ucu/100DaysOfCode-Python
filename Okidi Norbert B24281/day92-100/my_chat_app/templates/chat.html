@@ -39,6 +39,11 @@
             </div>
         {% endfor %}
     </div>
+    
+    <!-- Clear Chat Button -->
+    <div class="clear-chat">
+        <button style="text-align: end; color: aqua;" id="clear-chat-button">Clear Chat</button>
+    </div>
 
     <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
     <script src="{{ url_for('static', filename='chat.js') }}"></script>
@@ -55,6 +60,18 @@
                 event.preventDefault();
                 document.getElementById('send-button').click();
             }
+        });
+    </script>
+
+    <!-- Script for Clear Chat Button -->
+    <script>
+        document.getElementById('clear-chat-button').addEventListener('click', function() {
+            // Clear the localStorage
+            localStorage.clear();
+
+            // Clear the displayed messages on the UI
+            var messageContainer = document.getElementById('message-container');
+            messageContainer.innerHTML = ''; // Clear the content of the message container
         });
     </script>
 </body>
