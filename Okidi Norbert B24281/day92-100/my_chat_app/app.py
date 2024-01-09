@@ -106,7 +106,7 @@ def register():
 def logout():
     logout_user()
     flash('Logged out successfully', 'success')
-    return redirect(url_for('login'))  # Update 'register' to 'login'
+    return redirect(url_for('login')) 
 
 
 
@@ -142,7 +142,6 @@ def handle_connect():
         socketio.emit('message', {'message': f"[Private] {sender_username} to {recipient}: {message_content}", 'sender': 'System'}, room=recipient)
 
     emit('message', {'message': f"{current_user.username} has joined the chat.", 'sender': 'System'}, room=current_user.username)
-    # Debugging print statements
     print('Stored Messages:', messages)
     print('Stored Private Messages:', stored_private_messages)
 
@@ -168,17 +167,13 @@ def handle_private_message(data):
     )
     db.session.add(new_private_message)
     db.session.commit()
-
-    # Emit the private message to the sender
     emit('message', {'message': f"[Private] {sender_username} to {recipient}: {message_content}", 'sender': 'System'}, room=sender_username)
 
     # Emit the private message to the recipient if they are currently connected
     if recipient in connected_users:
         recipient_sid = connected_users[recipient]
-        # Use the socketio object associated with the recipient's room
         socketio.emit('message', {'message': f"[Private] {sender_username} to {recipient}: {message_content}", 'sender': 'System'}, room=recipient_sid)
     else:
-        # Recipient not connected, you could handle this case differently, e.g., send a notification
         print(f"Recipient {recipient} not currently connected. Saving the message for later.")
 
 if __name__ == '__main__':

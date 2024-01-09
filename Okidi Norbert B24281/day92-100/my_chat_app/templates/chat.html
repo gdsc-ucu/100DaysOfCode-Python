@@ -1,5 +1,3 @@
-<!-- templates/chat.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +11,6 @@
         <div class="header">
             <h1>Boujee Chat</h1>
             <p>Welcome, {{ username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
-        </div>
-
-        <div id="message-container">
-            <div id="notification-container"></div>
         </div>
 
         <form id="message-form">
@@ -33,14 +27,14 @@
     </div>
 
     <div id="message-container">
+        <div id="notification-container"></div>
         {% for message in messages %}
             <div>
                 <p>{{ message }}</p>
             </div>
         {% endfor %}
     </div>
-    
-    <!-- Clear Chat Button -->
+
     <div class="clear-chat">
         <button style="text-align: end; color: aqua;" id="clear-chat-button">Clear Chat</button>
     </div>
