@@ -123,21 +123,6 @@ def handle_message(msg):
 
     socketio.emit('message', {'message': full_msg, 'sender': current_user.username})
 
-@socketio.on('message')
-@login_required
-def handle_message(msg):
-    full_msg = f"{current_user.username}: {msg}"
-    print('Received message:', full_msg)
-
-    # Save the message to the database
-    new_message = Message(content=full_msg, sender=current_user.username)
-    db.session.add(new_message)
-    db.session.commit()
-
-    # Emit the message to all connected clients
-    socketio.emit('message', {'message': full_msg, 'sender': current_user.username}, room=current_user.username)
-
-
 @socketio.on('connect')
 @login_required
 def handle_connect():
