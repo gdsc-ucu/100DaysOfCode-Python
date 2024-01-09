@@ -56,48 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
         socket.emit('message_received', { messageId: data.messageId });
     });
 
-    // Function to save the private message to local storage
-    function savePrivateMessageToLocalStorage(message, timestamp) {
-        storedMessages.push({ message, timestamp });
-        localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
-    }
-
-    // Listen for new private messages from the server
-    socket.on('private_message', function (data) {
-        console.log('Received private_message:', data);  // Add this line for debugging
-
-        var messageContainer = document.getElementById('message-container');
-        var isUserScrolled = messageContainer.scrollHeight - messageContainer.clientHeight > messageContainer.scrollTop;
-
-        var messageElement = document.createElement('div');
-        var timestamp = data.timestamp || new Date().toLocaleTimeString();
-        var messageText = `[${timestamp}] [Private] ${data.sender} to ${data.recipient}: ${data.message}`;
-
-        messageElement.innerHTML = `<p>${messageText}</p>`;
-        messageContainer.appendChild(messageElement);
-
-        if (!isUserScrolled) {
-            messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
-        }
-
-        // Save the new private message to local storage
-        savePrivateMessageToLocalStorage(messageText, timestamp);
-
-        // Emit acknowledgment to the server that the private message is received
-        socket.emit('private_message_received', { messageId: data.messageId });
-    });
-
-    // Emit request to the server for any missed private messages (acknowledgment not received)
-    socket.emit('request_missed_private_messages');
-
-    // Listen for missed private messages from the server
-    socket.on('missed_private_messages', function (missedPrivateMessages) {
-        missedPrivateMessages.forEach(function (missedPrivateMessage) {
-            var timestamp = missedPrivateMessage.timestamp || new Date().toLocaleTimeString();
-            addMessageToContainer(missedPrivateMessage.message, timestamp);
-        });
-    });
-
     var messageForm = document.getElementById('message-form');
     var messageInput = document.getElementById('message-input');
 
@@ -105,19 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         var messageText = messageInput.value.trim();
 
-        // Check if the message is a private message
-        if (messageText.startsWith('/private')) {
-            var [, recipient, ...textArray] = messageText.split(' ');
-            var privateText = textArray.join(' ');
-
-            console.log('Emitting private_message:', { recipient, message: privateText });
-
-            if (recipient && privateText) {
-                socket.emit('private_message', { recipient, message: privateText });
-            } else {
-                console.error('Invalid private message format');
-            }
-        } else if (messageText !== '') {
+        if (messageText !== '') {
             socket.emit('message', messageText);
         }
 

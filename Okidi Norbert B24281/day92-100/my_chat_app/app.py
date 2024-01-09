@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify 
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -24,14 +24,6 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(500), nullable=False)
     sender = db.Column(db.String(80), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-# Private message model
-class PrivateMessage(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(500), nullable=False)
-    sender = db.Column(db.String(80), nullable=False)
-    recipient = db.Column(db.String(80), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 # Create database tables
@@ -101,12 +93,42 @@ def register():
 
     return render_template('register.html')
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash('Logged out successfully', 'success')
     return redirect(url_for('login')) 
+
+from flask import jsonify
+
+def delete_user_data(user):
+    Message.query.filter_by(sender=user.username).delete()
+    db.session.commit()
+
+@app.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    if request.method == 'POST':
+        user = User.query.filter_by(username=current_user.username).first()
+
+        if user:
+            Message.query.filter_by(sender=current_user.username).delete()
+            db.session.commit()
+
+            db.session.delete(user)
+            db.session.commit()
+
+            logout_user()
+
+            flash('Account deleted successfully', 'success')
+            return redirect(url_for('login'))
+
+        else:
+            flash('Failed to delete account', 'error')
+
+    return redirect(url_for('index'))
 
 
 
@@ -133,48 +155,17 @@ def handle_connect():
     for message in messages:
         socketio.emit('message', {'message': message.content, 'sender': message.sender}, room=current_user.username)
 
-    # Emit stored private messages to the connected user
-    sender_username = current_user.username
-    stored_private_messages = PrivateMessage.query.filter_by(sender=sender_username).order_by(PrivateMessage.timestamp).all()
-    for private_message in stored_private_messages:
-        recipient = private_message.recipient
-        message_content = private_message.content
-        socketio.emit('message', {'message': f"[Private] {sender_username} to {recipient}: {message_content}", 'sender': 'System'}, room=recipient)
-
     emit('message', {'message': f"{current_user.username} has joined the chat.", 'sender': 'System'}, room=current_user.username)
     print('Stored Messages:', messages)
-    print('Stored Private Messages:', stored_private_messages)
 
 @socketio.on('disconnect')
 @login_required
 def handle_disconnect():
     leave_room(current_user.username)
-    socketio.emit('message', f"{current_user.username} has left the chat.", room=current_user.username)
+    disconnect_message = f"{current_user.username} has left the chat."
+    emit('message', {'message': disconnect_message, 'sender': 'System'}, room=current_user.username)
+    print(disconnect_message)
 
-
-@socketio.on('private_message')
-@login_required
-def handle_private_message(data):
-    recipient = data['recipient']
-    message_content = data['message']
-    sender_username = current_user.username
-
-    # Save the private message to the database
-    new_private_message = PrivateMessage(
-        content=message_content,
-        sender=sender_username,
-        recipient=recipient
-    )
-    db.session.add(new_private_message)
-    db.session.commit()
-    emit('message', {'message': f"[Private] {sender_username} to {recipient}: {message_content}", 'sender': 'System'}, room=sender_username)
-
-    # Emit the private message to the recipient if they are currently connected
-    if recipient in connected_users:
-        recipient_sid = connected_users[recipient]
-        socketio.emit('message', {'message': f"[Private] {sender_username} to {recipient}: {message_content}", 'sender': 'System'}, room=recipient_sid)
-    else:
-        print(f"Recipient {recipient} not currently connected. Saving the message for later.")
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

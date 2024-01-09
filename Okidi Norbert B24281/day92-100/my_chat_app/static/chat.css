@@ -205,3 +205,41 @@ body.dark-mode #message-container p {
     left: calc(100% - 28px);
     transform: translate(0, -50%);
 }
+.clear-chat {
+    text-align: end;
+    margin-top: 10px; /* Adjust the margin as needed */
+}
+
+.clear-chat-button {
+    background-color: #4285f4;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 50%;
+}
+
+.clear-chat-button:hover {
+    background-color: #3b73af;
+}
+.account-actions {
+    text-align: end;
+    margin-top: 10px; /* Adjust the margin as needed */
+}
+
+#delete-account-button {
+    background-color: #ff5252; /* Red color, adjust as needed */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#delete-account-button:hover {
+    background-color: #ff0000; /* Darker red color on hover, adjust as needed */
+}
+
