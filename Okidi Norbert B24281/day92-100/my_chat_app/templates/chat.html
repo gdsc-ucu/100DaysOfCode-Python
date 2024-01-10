@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
+    <title>Boujee Chat</title>
+</head>
+
+<body>
+    <div class="chat-box">
+        <div class="header">
+            <h1>Boujee Chat</h1>
+            <p>Welcome, {{ username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
+        </div>
+        <div id="message-container">
+            <div id="notification-container"></div>
+        </div>
+
+        <form id="message-form">
+            <input type="text" autocomplete="off" id="message-input" placeholder="Type your message">
+            <button id="send-button" type="submit">Send</button>
+        </form>
+
+    </div>
+    <div class="dark-mode-toggle" id="dark-mode-toggle">
+        <label for="dark-mode-checkbox">Dark Mode</label>
+        <div class="dark-mode-checkbox-wrapper">
+            <input type="checkbox" id="dark-mode-checkbox" class="dark-mode-checkbox">
+        </div>
+    </div>
+
+    <div id="message-container">
+        {% for message in messages %}
+        <div>
+            <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="clear-chat">
+        <button class="clear-chat-button" id="clear-chat-button">Clear Chat</button>
+    </div>
+    <div class="account-actions">
+        <button id="delete-account-button" onclick="deleteAccount()">Delete Account</button>
+    </div>
+
+    <script>
+        function deleteAccount() {
+            var confirmDelete = confirm("Are you sure you want to delete your account?");
+
+            if (confirmDelete) {
+                // Send a request to the server to delete the account
+                fetch('/delete_account', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            window.location.href = '/login'; // Redirect to login page
+                        } else {
+                            alert(data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    </script>
+
+
+
+    <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
+
+    <script>
+        document.getElementById('dark-mode-checkbox').addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+        });
+    </script>
+
+    <script>
+        document.getElementById('message-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('send-button').click();
+            }
+        });
+    </script>
+
+    <!-- Script for Clear Chat Button -->
+    <script>
+        document.getElementById('clear-chat-button').addEventListener('click', function() {
+            // Clear the localStorage
+            localStorage.clear();
+
+            // Clear the displayed messages on the UI
+            var messageContainer = document.getElementById('message-container');
+            messageContainer.innerHTML = ''; // Clear the content of the message container
+        });
+    </script>
+</body>
+
+</html>

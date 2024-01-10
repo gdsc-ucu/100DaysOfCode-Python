@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    <div class="login-box">
+        <h2>Login</h2>
+        <form action="{{ url_for('login') }}" method="post">
+            <div class="user-box">
+                <input type="text" autocomplete="off" name="username" id="username">
+                <label for="">Username</label>
+            </div>
+            <div class="user-box">
+                <input type="password" autocomplete="off" name="password" id="password">
+                <label for="">Password</label>
+            </div>
+            <div class="user-box">
+                <button type="submit">log in</button>
+            </div>
+        </form>
+    </div>
+    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashed-messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
