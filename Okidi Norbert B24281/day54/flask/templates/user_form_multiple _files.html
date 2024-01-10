@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form with Multiple File Uploads</title>
+</head>
+<body>
+    <h1>User Form with Multiple File Uploads</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <label for="username">Username:</label>
+        {{ form.username }}
+        <br>
+        <label for="profile_pictures">Profile Pictures:</label>
+        {{ form.profile_pictures }}
+        <br>
+        {{ form.submit() }}
+    </form>
+</body>
+</html>

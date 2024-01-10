@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>About</title>
+</head>
+<body>
+    <div class="container">
+        <h1>About Us</h1>
+        <p>Learn more about our simple Django application.</p>
+        <a href="{% url 'home' %}">Home</a>
+    </div>
+</body>
+</html>
